@@ -6,7 +6,7 @@ GUI plugin for OpenCode Desktop that turns the vertical session tab strip into p
 
 - Project headers group session tabs by project, with collapsible folds (state persists across restarts).
 - Same-project threads stay contiguous and are sorted newest-first by last activity.
-- A `+` button on each project header creates a new session in that project and opens it.
+- A pen-and-paper button on each project header creates a new session in that project and opens it.
 - Thread titles are indented under their project name, and the per-tab project letter avatars are hidden in vertical mode.
 - Only affects the side-tab layout; top tabs are untouched.
 

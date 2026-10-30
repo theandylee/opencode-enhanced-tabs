@@ -36,6 +36,7 @@ const styles = `
   margin: 0;
   padding: 0 6px 0 9px;
   border-radius: 6px;
+  background: var(--v2-background-bg-layer-01, color-mix(in srgb, currentColor 5%, transparent));
   color: var(--v2-text-text-faint);
   font: inherit;
   font-size: 14px;
@@ -46,7 +47,7 @@ const styles = `
 }
 [${HEADER}] { margin-block-start: 14px; }
 [${HEADER}][data-first] { margin-block-start: 8px; }
-[${HEADER}]:hover { color: var(--v2-text-text-muted); background: color-mix(in srgb, currentColor 7%, transparent); }
+[${HEADER}]:hover { color: var(--v2-text-text-muted); background: var(--v2-background-bg-layer-02, color-mix(in srgb, currentColor 9%, transparent)); }
 [data-tab-groups-toggle] {
   display: flex;
   flex: 1 1 auto;
@@ -67,7 +68,7 @@ const styles = `
 [data-tab-groups-toggle]:focus-visible { outline: 1px solid var(--v2-border-border-muted); outline-offset: 2px; border-radius: 4px; }
 [data-tab-groups-chevron] { flex: 0 0 auto; width: 10px; height: 10px; opacity: 0.7; transition: transform 120ms ease; }
 [${HEADER}][data-collapsed] [data-tab-groups-chevron] { transform: rotate(-90deg); }
-[data-tab-groups-label] { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+[data-tab-groups-label] { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.25; }
 [data-tab-groups-count] { flex: 0 0 auto; font-size: 10px; font-variant-numeric: tabular-nums; opacity: 0.6; }
 [${HEADER}]:not([data-collapsed]) [data-tab-groups-count] { display: none; }
 [data-tab-groups-new] {
@@ -87,7 +88,7 @@ const styles = `
   opacity: 0.5;
   transition: opacity 120ms ease, background 120ms ease;
 }
-[data-tab-groups-new] svg { width: 10px; height: 10px; }
+[data-tab-groups-new] svg { width: 16px; height: 16px; }
 [data-tab-groups-new]:hover { opacity: 1; background: color-mix(in srgb, currentColor 12%, transparent); }
 [data-tab-groups-new]:focus-visible { outline: 1px solid var(--v2-border-border-muted); outline-offset: 1px; opacity: 1; }
 [data-slot="vertical-tabs"] [data-titlebar-tab-slot] [data-titlebar-tab-link] > span:has(> [data-component="project-avatar-v2"]):not(:has(> [data-slot="tab-avatar-unread-dot"])) { display: none; }
@@ -246,18 +247,28 @@ module.exports = Plugin.define({
         .catch(() => ctx.toast.show({ title: `Could not create a session in ${group.label}` }))
     }
 
-    const icon = (pathData) => {
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-      svg.setAttribute("viewBox", "0 0 10 10")
+    // Prefer the app's own icon sprite, so we reuse the exact icon used for New session.
+    const icon = (pathData, viewBox = "0 0 10 10", strokeWidth = 1.3, sprite) => {
+      const ns = "http://www.w3.org/2000/svg"
+      const svg = document.createElementNS(ns, "svg")
+      svg.setAttribute("viewBox", viewBox)
+      svg.setAttribute("fill", "none")
+      svg.setAttribute("stroke", "currentColor")
+      svg.setAttribute("stroke-width", strokeWidth)
+      svg.setAttribute("stroke-linecap", "round")
+      svg.setAttribute("stroke-linejoin", "round")
       svg.setAttribute("aria-hidden", "true")
 
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path")
+      if (sprite && document.getElementById(`opencode-v2-icon-${sprite}`)) {
+        const use = document.createElementNS(ns, "use")
+        use.setAttribute("href", `#opencode-v2-icon-${sprite}`)
+        svg.append(use)
+
+        return svg
+      }
+
+      const path = document.createElementNS(ns, "path")
       path.setAttribute("d", pathData)
-      path.setAttribute("fill", "none")
-      path.setAttribute("stroke", "currentColor")
-      path.setAttribute("stroke-width", "1.3")
-      path.setAttribute("stroke-linecap", "round")
-      path.setAttribute("stroke-linejoin", "round")
       svg.append(path)
 
       return svg
@@ -290,7 +301,14 @@ module.exports = Plugin.define({
       const add = document.createElement("button")
       add.type = "button"
       add.setAttribute("data-tab-groups-new", "")
-      add.append(icon("M5 1.75v6.5M1.75 5h6.5"))
+      add.append(
+        icon(
+          "M13.5556 8.21529V13.5556H2.44446L2.44446 2.44445H7.78474M6.00002 8.16216V10H7.83786L14 3.83784L12.1622 2L6.00002 8.16216Z",
+          "0 0 16 16",
+          1.6,
+          "edit",
+        ),
+      )
       add.addEventListener("click", (event) => {
         event.preventDefault()
         event.stopPropagation()
