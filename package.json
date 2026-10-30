@@ -1,0 +1,17 @@
+{
+  "name": "opencode-enhanced-tabs",
+  "version": "0.1.0",
+  "description": "Project-grouped, collapsible session tabs for OpenCode Desktop",
+  "exports": {
+    "./gui-experimental": "./gui-experimental.cjs"
+  },
+  "files": [
+    "gui-experimental.cjs",
+    "README.md"
+  ],
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "tab-groups"
+  ]
+}
