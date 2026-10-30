@@ -17,13 +17,13 @@ Requires OpenCode Desktop 2.2.x (GUI plugins are experimental).
 Install straight from this repository:
 
 ```sh
-opencode plugin add github:<owner>/opencode-enhanced-tabs
+opencode plugin add github:theandylee/opencode-enhanced-tabs
 ```
 
 Any git specifier npm accepts works, for example:
 
 ```sh
-opencode plugin add git+https://github.com/<owner>/opencode-enhanced-tabs.git
+opencode plugin add git+https://github.com/theandylee/opencode-enhanced-tabs.git
 ```
 
 The command installs the package and adds it to the global `plugins` list. Restart the app, or reload the plugin in **Settings → Extensions → Plugins**.
@@ -31,7 +31,7 @@ The command installs the package and adds it to the global `plugins` list. Resta
 ### From a local clone
 
 ```sh
-git clone <repo-url> D:\Dev\opencode-enhanced-tabs
+git clone https://github.com/theandylee/opencode-enhanced-tabs.git D:\Dev\opencode-enhanced-tabs
 ```
 
 Then add the absolute path to `plugins` in your global config (`~/.config/opencode/opencode.json` or `opencode.jsonc`):

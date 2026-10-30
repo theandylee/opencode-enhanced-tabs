@@ -2,6 +2,10 @@
   "name": "opencode-enhanced-tabs",
   "version": "0.1.0",
   "description": "Project-grouped, collapsible session tabs for OpenCode Desktop",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theandylee/opencode-enhanced-tabs.git"
+  },
   "exports": {
     "./gui-experimental": "./gui-experimental.cjs"
   },
